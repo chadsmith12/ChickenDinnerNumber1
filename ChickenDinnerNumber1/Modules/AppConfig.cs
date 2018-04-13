@@ -1,4 +1,5 @@
-﻿using ChickenDinnerNumber1.ViewModels;
+﻿using ChickenDinnerNumber1.DialogService;
+using ChickenDinnerNumber1.ViewModels;
 using Ninject;
 using Ninject.Modules;
 using Xamarin.Forms;
@@ -55,6 +56,7 @@ namespace ChickenDinnerNumber1.Modules
             // Initalize the dialog service for this page.
             var viewModel = Kernel.Get<TViewModel>();
             MainPage.BindingContext = viewModel;
+            viewModel.DialogService = Kernel.Get<IDialogService>();
             viewModel.DialogService.Init(MainPage);
 
             return this;

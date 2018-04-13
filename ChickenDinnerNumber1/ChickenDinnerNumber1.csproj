@@ -17,7 +17,9 @@
     <PackageReference Include="Fody" Version="3.0.1" />
     <PackageReference Include="Ninject.PCL111" Version="1.0.5" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.4.0" />
-    <PackageReference Include="Pubg-DotNet" Version="1.0.0" />
+    <PackageReference Include="Pubg-DotNet" Version="1.0.2" />
+    <PackageReference Include="PUBGLibrary" Version="1.0.5" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.5.166-beta" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
@@ -34,6 +36,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Pages\BasePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\MatchListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

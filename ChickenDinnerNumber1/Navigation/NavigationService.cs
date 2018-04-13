@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using ChickenDinnerNumber1.DialogService;
 using ChickenDinnerNumber1.Pages;
 using ChickenDinnerNumber1.ViewModels;
 using Xamarin.Forms;
@@ -189,6 +190,7 @@ namespace ChickenDinnerNumber1.Navigation
             {
                 throw new NullReferenceException($"Could not load view of type {viewType.FullName} registered to the {viewModelType.FullName}. Did you forget a call to {nameof(RegisterViewMapping)}?");
             }
+            viewModel.DialogService = (IDialogService)currentApp.AppConfig.Kernel.GetService(typeof(IDialogService));
             viewModel?.DialogService?.Init(view);
 
             view.BindingContext = viewModel;

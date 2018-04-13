@@ -11,6 +11,7 @@ namespace ChickenDinnerNumber1.Modules
         public override void Load()
         {
             Bind<MainViewModel>().ToSelf();
+            Bind<MatchListViewModel>().ToSelf();
         }
     }
 }

@@ -10,16 +10,11 @@ namespace ChickenDinnerNumber1.Modules
     {
         public void Load()
         {
-            // the api key is not empty, we already have it
-            if (Settings.PubgApiKey == string.Empty)
+            Settings.PubgApiKey = ResourceManifestReader.ReadText("keys.pubgapi.txt");
+            PubgApiConfiguration.Configure((setings =>
             {
-                Settings.PubgApiKey = ResourceManifestReader.ReadText("keys.pubgapi.txt");
-            }
-
-            PubgApiConfiguration.Configure(opt =>
-            {
-                opt.ApiKey = Settings.PubgApiKey;
-            });
+                setings.ApiKey = Settings.PubgApiKey;
+            }));
         }
     }
 }

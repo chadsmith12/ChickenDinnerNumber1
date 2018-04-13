@@ -1,6 +1,7 @@
 ﻿using ChickenDinnerNumber1.DialogService;
 using Ninject.Modules;
 using Pubg.Net;
+using PUBGLibrary.API;
 
 namespace ChickenDinnerNumber1.Modules
 {
@@ -13,6 +14,8 @@ namespace ChickenDinnerNumber1.Modules
         {
             Bind<IDialogService>().To<DialogService.DialogService>();
             Bind<PubgPlayerService>().ToSelf();
+            Bind<PubgMatchService>().ToSelf();
+            Bind<APIRequest>().ToSelf();
         }
     }
 }

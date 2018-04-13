@@ -10,10 +10,10 @@ namespace ChickenDinnerNumber1.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         #region Constructors
-        protected BaseViewModel(INavigationService navigationService, IDialogService dialogService)
+        protected BaseViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-            DialogService = dialogService;
+            //DialogService = dialogService;
         }
         #endregion
 
@@ -31,7 +31,7 @@ namespace ChickenDinnerNumber1.ViewModels
         /// <summary>
         /// The Dialog Service to help show dialog boxes.
         /// </summary>
-        public IDialogService DialogService { get; }
+        public IDialogService DialogService { get; set; }
 
         /// <summary>
         /// The Navigation service used to navigate from ViewModel to ViewModel.
@@ -73,7 +73,7 @@ namespace ChickenDinnerNumber1.ViewModels
     public abstract class BaseViewModel<TParameter> : BaseViewModel
     {
         #region Constructors
-        protected BaseViewModel(INavigationService navigationService, IDialogService dialogService) : base(navigationService, dialogService)
+        protected BaseViewModel(INavigationService navigationService, IDialogService dialogService) : base(navigationService)
         {
         }
         #endregion

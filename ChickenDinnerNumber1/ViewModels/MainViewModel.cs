@@ -1,11 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ChickenDinnerNumber1.DialogService;
 using ChickenDinnerNumber1.Helpers;
-using Pubg.Net;
 using ChickenDinnerNumber1.Navigation;
+using ChickenDinnerNumber1.NavigationParameters;
+using Pubg.Net;
+using PUBGLibrary.API;
 using Xamarin.Forms;
 using static ChickenDinnerNumber1.Enums.PubgRegion;
 
@@ -13,64 +15,50 @@ namespace ChickenDinnerNumber1.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly PubgPlayerService _playerService;
-        public MainViewModel(INavigationService navigationService, IDialogService dialogService, PubgPlayerService pubgPlayerService) : base(navigationService, dialogService)
+        #region Private Fields
+
+        private readonly PubgPlayerService _apiRequest;
+        private readonly PubgMatchService _matchService;
+        #endregion
+
+        #region Constructors
+
+        public MainViewModel(INavigationService navigationService, IDialogService dialogService, PubgPlayerService apiRequest, PubgMatchService matchService) : base(navigationService)
         {
-            SelectedRegion = Enums.PubgRegion.PcNorthAmerica;
+            _apiRequest = apiRequest;
+            _matchService = matchService;
+            SelectedRegion = PcNorthAmerica;
             SubmitCommand = new Command(async () => await GetPlayerData());
-            _playerService = pubgPlayerService;
         }
+
+        #endregion
+
+        #region Binding Properties
 
         public Enums.PubgRegion SelectedRegion { get; set; }
         public string UserName { get; set; }
         public ICommand SubmitCommand { get; }
+        public string CurrentOperation { get; set; }
+        #endregion
 
         public override async Task Init()
         {
 
         }
 
-        private PubgRegion GetPubgRegion()
-        {
-            switch (SelectedRegion)
-            {
-                case XboxAsia:
-                    return PubgRegion.XboxAsia;
-                case XboxEurope:
-                    return PubgRegion.XboxEurope;
-                case XboxNorthAmerica:
-                    return PubgRegion.XboxNorthAmerica;
-                case XboxOceania:
-                    return PubgRegion.XboxOceania;
-                case PcKorea:
-                    return PubgRegion.PCKoreaJapan;
-                case PcNorthAmerica:
-                    return PubgRegion.PCNorthAmerica;
-                case PcEurope:
-                    return PubgRegion.PCEurope;
-                case PcOceania:
-                    return PubgRegion.PCOceania;
-                case PcKakao:
-                    return PubgRegion.PCKakao;
-                case PcSouthEastAsia:
-                    return PubgRegion.PCSouthEastAsia;
-                case PcSouthCentralAmerica:
-                    return PubgRegion.PCSouthAndCentralAmerica;
-                case PcAsia:
-                    return PubgRegion.PCAsia;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private async Task GetPlayerData()
         {
-            var playerRequest = new GetPubgPlayersRequest
+            IsBusy = true;
+            var playes = await _apiRequest.GetPlayersAsync(PubgRegion.PCNorthAmerica, new GetPubgPlayersRequest{PlayerNames = new []{UserName}});
+            var player = playes.First();
+            var matches = new List<PubgMatch>();
+            foreach (var item in player.MatchIds.Take(5))
             {
-                PlayerNames = new[] {UserName}
-            };
-            var playerData = await _playerService.GetPlayersAsync(GetPubgRegion(), playerRequest);
-            var player = playerData.First();
+                matches.Add(await _matchService.GetMatchAsync(PubgRegion.PCNorthAmerica, item));
+            }
+
+            await NavigationService.NavigateToAsync<MatchListViewModel, MatchListParams>(new MatchListParams(matches));
+            IsBusy = false;
         }
     }
 }

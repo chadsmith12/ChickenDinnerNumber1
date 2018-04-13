@@ -34,5 +34,7 @@
                 FontSize="20"
                 HorizontalOptions="FillAndExpand"
                 BackgroundColor="#f49131"/>
+        <ActivityIndicator IsEnabled="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"/>
     </StackLayout>
 </base:BasePage>

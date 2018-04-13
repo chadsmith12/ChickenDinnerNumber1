@@ -1,5 +1,6 @@
 ﻿using System;
 using ChickenDinnerNumber1.Navigation;
+using ChickenDinnerNumber1.Pages;
 using ChickenDinnerNumber1.ViewModels;
 using Ninject.Modules;
 using Xamarin.Forms;
@@ -29,6 +30,7 @@ namespace ChickenDinnerNumber1.Modules
             // Example:
             // navigationService.RegisterViewMapping(typeof(MyViewModel), typeof(MyPage));
             navigationService.RegisterViewMapping(typeof(MainViewModel), typeof(MainPage));
+            navigationService.RegisterViewMapping(typeof(MatchListViewModel), typeof(MatchListPage));
 
             // Bind the navigation service so it gets injected into the view models.
             // You only ever want one navigation service and not multiple navigation services laying around so we make a rule that this is done in the SingletonScope
